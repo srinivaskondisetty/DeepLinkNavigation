@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Connector;
+﻿using DeepLinkNavigation.Dialogs;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Teams;
 using Microsoft.Bot.Connector.Teams.Models;
 using Newtonsoft.Json;
@@ -11,10 +12,20 @@ namespace DeepLinkNavigation.Utilities
 {
     public class TemplateUtility
     {
-        public static ComposeExtensionAttachment CreateComposeExtensionCardsAttachments(string title, string text, string imageUrl, string state, string deeplinkurl)
+
+        public static ComposeExtensionAttachment GenerateComposeExtentionAttachments(Activity activity)
         {
+            Attachment deepLinkAttachement = Cards.GenerateDeepLinkAttachment(activity).ToAttachment();
+            Attachment deepLinkPreviewAttachment = Cards.GenerateDeepLinkPreviewAttachment().ToAttachment();
+            return deepLinkAttachement.ToComposeExtensionAttachment();
+        }
+
+        public static ComposeExtensionAttachment CreateComposeExtensionCardsAttachments(string title, string text, string imageUrl, string state, string deeplinkurl)
+        {   
             return GetComposeExtensionMainResultAttachment(title, text, imageUrl, deeplinkurl, state).ToComposeExtensionAttachment(GetComposeExtensionPreviewAttachment(title, text, imageUrl, deeplinkurl, state));
         }
+
+
 
         public static Attachment GetComposeExtensionMainResultAttachment(string title, string text, string imageUrl, string deepLinkUrl, string state)
         {
@@ -110,6 +121,13 @@ namespace DeepLinkNavigation.Utilities
 
                 return url;
             }
+            else if (type == "conversation")
+            {
+                // The app ID, stored in the web.config file, should be the appID from your manifest.json file.
+                var BotId = System.Configuration.ConfigurationManager.AppSettings["BotId"];
+                var TabEntityID = $"staticTab"; // Match the entity ID we setup when configuring the tab
+                return "https://teams.microsoft.com/l/entity/28:" + BotId + "/conversation?conversationType=chat";
+            }
             else
             {
                 // The app ID, stored in the web.config file, should be the appID from your manifest.json file.
@@ -119,14 +137,5 @@ namespace DeepLinkNavigation.Utilities
             }
         }
     }
-
-    internal class TabContext
-    {
-        public TabContext()
-        {
-        }
-
-        public string ChannelId { get; set; }
-        public string CanvasUrl { get; set; }
-    }
+   
 }

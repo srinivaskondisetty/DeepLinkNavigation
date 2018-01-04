@@ -22,11 +22,13 @@ namespace DeepLinkNavigation
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+                Activity strippedActivity = Middleware.Middleware.StripAtMentionText(activity);
+                await Conversation.SendAsync(strippedActivity, () => new Dialogs.RootDialog());
             }
             else if (activity.Type == ActivityTypes.Invoke) // Received an invoke
             {
-                var invokeResponse = this.GetComposeExtensionResponse(activity);
+                Activity strippedActivity = Middleware.Middleware.StripAtMentionText(activity);
+                var invokeResponse = this.GetComposeExtensionResponse(strippedActivity);
                 return Request.CreateResponse<ComposeExtensionResponse>(HttpStatusCode.OK, invokeResponse);
             }
             else
@@ -47,7 +49,7 @@ namespace DeepLinkNavigation
             List<ComposeExtensionAttachment> lstComposeExtensionAttachment = new List<ComposeExtensionAttachment>();
             string imageUrl = "https://luna1.co/cae4f2.png";
             string deepLinkUrl = TemplateUtility.GetDeepLink(activity, composeExtParamValue);
-            lstComposeExtensionAttachment.Add(TemplateUtility.CreateComposeExtensionCardsAttachments("Deep Link", "Clicking on the button will redirect you to the configuration tab", imageUrl, "hero", deepLinkUrl));
+            lstComposeExtensionAttachment.Add(TemplateUtility.GenerateComposeExtentionAttachments(activity));
             composeExtensionResult.Type = "result";
             composeExtensionResult.AttachmentLayout = "list";
             composeExtensionResult.Attachments = lstComposeExtensionAttachment;

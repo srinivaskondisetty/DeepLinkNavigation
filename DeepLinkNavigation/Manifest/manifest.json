@@ -1,0 +1,119 @@
+﻿{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.0",
+  "version": "1.0",
+  "id": "f2b2f851-cd78-42a5-a844-9b47bc1cb57d",
+  "packageName": "com.deeplinknavigation.microsoftteams",
+  "developer": {
+    "name": "Bot Template",
+    "websiteUrl": "https://2b852be0.ngrok.io",
+    "privacyUrl": "https://2b852be0.ngrok.io/privacystatement",
+    "termsOfUseUrl": "https://2b852be0.ngrok.io/toc"
+  },
+  "name": {
+    "short": "Deeplink Navigation",
+    "full": "Deeplink Navigation"
+  },
+  "description": {
+    "short": "Deeplinks from Actionable messages",
+    "full": "Deeplinks from Actionable messages, compose extensions which will navigate to 1:1 chat, static tabs and configurable tabs"
+  },
+  "icons": {
+    "outline": "deeplink.jpg",
+    "color": "deeplink.jpg"
+  },
+  "accentColor": "#0079bf",
+  "bots": [
+    {
+      "botId": "f2b2f851-cd78-42a5-a844-9b47bc1cb57d",
+      "scopes": [
+        "team",
+        "personal"
+      ],
+      "commandLists": [
+        {
+          "scopes": [
+            "team"
+          ],
+          "commands": [
+            {
+              "title": "help",
+              "description": "Help"
+            },
+            {
+              "title": "getlink",
+              "description": "Will get the deeplink of configurable, static and 1:1 conversations"
+            }
+          ]
+        },
+        {
+          "scopes": [
+            "personal"
+          ],
+          "commands": [
+            {
+              "title": "help",
+              "description": "Help"
+            },
+            {
+              "title": "getlink",
+              "description": "Will get the deeplink of configurable, static and 1:1 conversations"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "staticTabs": [
+    {
+      "contentUrl": "https://2b852be0.ngrok.io/statictab",
+      "entityId": "statictab",
+      "name": "Static Tab",
+      "scopes": [
+        "personal"
+      ],
+      "websiteUrl": "https://2b852be0.ngrok.io"
+    }
+  ],
+  "configurableTabs": [
+    {
+      "canUpdateConfiguration": false,
+      "configurationUrl": "https://2b852be0.ngrok.io/configure",
+      "scopes": [
+        "team"
+      ]      
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "f2b2f851-cd78-42a5-a844-9b47bc1cb57d",
+      "scopes": [
+        "team",
+        "personal"
+      ],
+      "commands": [
+        {
+          "id": "getdeeplink",
+          "description": "Genereate a deeplink for the tab",
+          "title": "Get deep link",
+          "initialRun": true,
+          "parameters": [
+            {
+              "title": "type",
+              "name": "type",
+              "description": "Type of scope"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "2b852be0.ngrok.io",
+    "login.microsoftonline.com"
+  ]
+}
